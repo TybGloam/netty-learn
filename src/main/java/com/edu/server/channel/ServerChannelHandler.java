@@ -27,7 +27,7 @@ public class ServerChannelHandler extends ChannelInboundHandlerAdapter {
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         ByteBuf bb = (ByteBuf) msg;
         //把消息打印到控制台
-        System.out.println("Server received: " + bb.toString(CharsetUtil.UTF_8));
+        System.out.println(System.currentTimeMillis()+"Server received: " + bb.toString(CharsetUtil.UTF_8));
         //将当前消息写回给client
         ctx.write(bb);
     }
@@ -39,6 +39,7 @@ public class ServerChannelHandler extends ChannelInboundHandlerAdapter {
      */
     @Override
     public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
+        System.out.println(System.currentTimeMillis()+"消息未决");
         //将未决消息冲刷到远程节点,并且关闭该Channel
         ctx.writeAndFlush(Unpooled.EMPTY_BUFFER).addListener(ChannelFutureListener.CLOSE);
     }

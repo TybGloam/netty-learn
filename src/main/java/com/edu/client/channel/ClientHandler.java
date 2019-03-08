@@ -13,11 +13,12 @@ public class ClientHandler extends SimpleChannelInboundHandler<ByteBuf> {
     //当被通知Channel是活跃的时候,发送一条消息
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
+        System.out.println(System.currentTimeMillis()+" Client sengMsg");
         ctx.writeAndFlush(Unpooled.copiedBuffer("Netty rocks!",CharsetUtil.UTF_8));
     }
     //记录已经接受的消息
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf) throws Exception {
-        System.out.println("Client received:"+byteBuf.toString(CharsetUtil.UTF_8));
+        System.out.println(System.currentTimeMillis()+" Client received:"+byteBuf.toString(CharsetUtil.UTF_8));
     }
 
     @Override

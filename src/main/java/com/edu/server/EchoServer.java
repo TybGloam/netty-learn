@@ -43,4 +43,8 @@ public class EchoServer {
         }
 
     }
+
+    public static void main(String[] args) throws InterruptedException {
+        new EchoServer(2234).start();
+    }
 }
