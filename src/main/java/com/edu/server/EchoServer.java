@@ -28,7 +28,9 @@ public class EchoServer {
             b.group(group).channel(NioServerSocketChannel.class)//创建使用的Nio传输的Channel
                     .localAddress(new InetSocketAddress(port))//使用指定的端口设置套接字地址 本地地址
                     .childHandler(new ChannelInitializer<SocketChannel>() {//添加一个handler到子channel的channelPipeline
+                        //当一个新的连接被接收是,一个新的子channel被创建
                         protected void initChannel(SocketChannel socketChannel) throws Exception {
+                            //addLast方法可以把你自己声明的一个handler实例加入到pipeline中
                             socketChannel.pipeline().addLast(serverChannelHandler);
                         }
 
