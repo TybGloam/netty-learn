@@ -1,4 +1,4 @@
-package com.edu.server.channel;
+package com.edu.netty.server.channel;
 
 
 import io.netty.buffer.ByteBuf;

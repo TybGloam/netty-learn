@@ -1,4 +1,4 @@
-package com.edu.client.channel;
+package com.edu.netty.client.channel;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;

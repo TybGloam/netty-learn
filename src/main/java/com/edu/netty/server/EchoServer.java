@@ -1,6 +1,6 @@
-package com.edu.server;
+package com.edu.netty.server;
 
-import com.edu.server.channel.ServerChannelHandler;
+import com.edu.netty.server.channel.ServerChannelHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;

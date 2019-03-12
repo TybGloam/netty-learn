@@ -1,6 +1,6 @@
-package com.edu.client;
+package com.edu.netty.client;
 
-import com.edu.client.channel.ClientHandler;
+import com.edu.netty.client.channel.ClientHandler;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
