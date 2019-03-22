@@ -3,10 +3,7 @@ package com.edu.nio;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
-import java.nio.channels.SelectionKey;
-import java.nio.channels.Selector;
-import java.nio.channels.ServerSocketChannel;
-import java.nio.channels.SocketChannel;
+import java.nio.channels.*;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -129,7 +126,7 @@ public class NioServerHandler implements Runnable {
                     String msg = new String(bytes, "UTF-8");
                     System.out.println("服务器收到消息:"+msg);
 
-                    resp(sc,msg);
+                    broadCast(sc,msg);
 
 
                 }else if (read < 0){
@@ -153,5 +150,25 @@ public class NioServerHandler implements Runnable {
         buffer.flip();
 
         sc.write(buffer);
+    }
+
+    private void broadCast(SocketChannel sc ,String msg) throws IOException {
+        Set<SelectionKey> keys = selector.keys();
+
+        for (SelectionKey key : keys) {
+            SelectableChannel channel = key.channel();
+            if (channel instanceof SocketChannel && channel != sc){
+                SocketChannel ssc = (SocketChannel) channel;
+
+                byte[] bytes = msg.getBytes();
+                ByteBuffer buffer = ByteBuffer.allocate(bytes.length);
+
+                buffer.put(bytes);
+                //写之后flip
+                buffer.flip();
+
+                ssc.write(buffer);
+            }
+        }
     }
 }

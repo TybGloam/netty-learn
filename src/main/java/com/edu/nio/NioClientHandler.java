@@ -79,14 +79,12 @@ public class NioClientHandler implements Runnable {
 
                     buffer.get(bytes);
                     String msg = new String(bytes,"UTF-8");
-                    System.out.println("客户端收到响应:"+msg);
+                    System.out.println(Thread.currentThread().getName()+"收到响应:"+msg);
 
                 }else if (read < 0){
                     key.cancel();
                     sc.close();
                 }
-
-
 
 
             }

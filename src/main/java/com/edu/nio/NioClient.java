@@ -1,6 +1,9 @@
 package com.edu.nio;
 
 import java.io.IOException;
+import java.util.Random;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Created by zhangxuan on 2019/3/21.
@@ -11,29 +14,39 @@ public class NioClient {
 
     private static final int DEFAULT_PORT = 12345;
 
-    private static NioClientHandler handler;
+    private NioClientHandler handler;
 
-    public static void start(){
+    public void start(){
         start(DEFAULT_ADDR,DEFAULT_PORT);
     }
 
-    public synchronized static void start(String addr, int port){
+    public synchronized void start(String addr, int port){
         if (handler != null) handler.stop();
         handler = new NioClientHandler(addr,port);
         new Thread(handler).start();
     }
 
-    public static void sendMsg(String msg) throws IOException {
+    public void sendMsg(String msg) throws IOException {
         handler.sendMsg(msg);
 
     }
 
     public static void main(String[] args) throws IOException, InterruptedException {
-        start();
-        Thread.sleep(1000);
-        for (int i = 0; i < 10; i++) {
+        ExecutorService executorService = Executors.newFixedThreadPool(5);
 
-            sendMsg(Thread.currentThread().getName()+" "+i);
+        for (int i = 0; i < 5; i++) {
+            executorService.execute(new Runnable() {
+                public void run() {
+                    NioClient nioClient = new NioClient();
+                    nioClient.start();
+                    try {
+                        Thread.sleep(1000);
+                        nioClient.sendMsg(Thread.currentThread().getName()+" "+ ((int)(Math.random()*10))+"说:Hi!\n");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
         }
     }
 
